@@ -1,5 +1,4 @@
 """Module containing bug report helper(s)."""
-from __future__ import print_function
 
 import json
 import platform
@@ -72,7 +71,7 @@ def info():
             'system': platform.system(),
             'release': platform.release(),
         }
-    except IOError:
+    except OSError:
         platform_info = {
             'system': 'Unknown',
             'release': 'Unknown',

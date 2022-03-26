@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 requests.models
 ~~~~~~~~~~~~~~~
@@ -64,7 +62,7 @@ CONTENT_CHUNK_SIZE = 10 * 1024
 ITER_CHUNK_SIZE = 512
 
 
-class RequestEncodingMixin(object):
+class RequestEncodingMixin:
     @property
     def path_url(self):
         """Build the path URL to use."""
@@ -178,7 +176,7 @@ class RequestEncodingMixin(object):
         return body, content_type
 
 
-class RequestHooksMixin(object):
+class RequestHooksMixin:
     def register_hook(self, event, hook):
         """Properly register a hook."""
 
@@ -408,7 +406,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
                 host = self._get_idna_encoded_host(host)
             except UnicodeError:
                 raise InvalidURL('URL has an invalid label.')
-        elif host.startswith((u'*', u'.')):
+        elif host.startswith(('*', '.')):
             raise InvalidURL('URL has an invalid label.')
 
         # Carefully reconstruct the network location
@@ -489,7 +487,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
                 # of a redirect.
                 try:
                     self._body_position = body.tell()
-                except (IOError, OSError):
+                except OSError:
                     # This differentiates from None, allowing us to catch
                     # a failed `tell()` later when trying to rewind the body
                     self._body_position = object()
@@ -586,7 +584,7 @@ class PreparedRequest(RequestEncodingMixin, RequestHooksMixin):
             self.register_hook(event, hooks[event])
 
 
-class Response(object):
+class Response:
     """The :class:`Response <Response>` object, which contains a
     server's response to an HTTP request.
     """
@@ -855,7 +853,7 @@ class Response(object):
         encoding = self.encoding
 
         if not self.content:
-            return str('')
+            return ''
 
         # Fallback to auto-detected encoding.
         if self.encoding is None:
@@ -943,10 +941,10 @@ class Response(object):
             reason = self.reason
 
         if 400 <= self.status_code < 500:
-            http_error_msg = u'%s Client Error: %s for url: %s' % (self.status_code, reason, self.url)
+            http_error_msg = '%s Client Error: %s for url: %s' % (self.status_code, reason, self.url)
 
         elif 500 <= self.status_code < 600:
-            http_error_msg = u'%s Server Error: %s for url: %s' % (self.status_code, reason, self.url)
+            http_error_msg = '%s Server Error: %s for url: %s' % (self.status_code, reason, self.url)
 
         if http_error_msg:
             raise HTTPError(http_error_msg, response=self)

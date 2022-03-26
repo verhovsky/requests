@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import os
 import copy
 import filecmp
@@ -51,7 +49,7 @@ class TestSuperLen:
     @pytest.mark.parametrize('error', [IOError, OSError])
     def test_super_len_handles_files_raising_weird_errors_in_tell(self, error):
         """If tell() raises errors, assume the cursor is at position zero."""
-        class BoomFile(object):
+        class BoomFile:
             def __len__(self):
                 return 5
 
@@ -63,7 +61,7 @@ class TestSuperLen:
     @pytest.mark.parametrize('error', [IOError, OSError])
     def test_super_len_tell_ioerror(self, error):
         """Ensure that if tell gives an IOError super_len doesn't fail"""
-        class NoLenBoomFile(object):
+        class NoLenBoomFile:
             def tell(self):
                 raise error()
 
@@ -105,7 +103,7 @@ class TestSuperLen:
         assert len_foo == 4
 
     def test_super_len_with_no__len__(self):
-        class LenFile(object):
+        class LenFile:
             def __init__(self):
                 self.len = 5
 
@@ -356,7 +354,7 @@ class TestGuessJSONUTF:
             ('utf-32-le', 'utf-32')
         ))
     def test_guess_by_bom(self, encoding, expected):
-        data = u'\ufeff{}'.encode(encoding)
+        data = '\ufeff{}'.encode(encoding)
         assert guess_json_utf(data) == expected
 
 
@@ -619,7 +617,7 @@ def test_prepend_scheme_if_needed(value, expected):
     'value, expected', (
         ('T', 'T'),
         (b'T', 'T'),
-        (u'T', 'T'),
+        ('T', 'T'),
     ))
 def test_to_native_string(value, expected):
     assert to_native_string(value) == expected
@@ -698,9 +696,9 @@ def test_add_dict_to_cookiejar(cookiejar):
 
 @pytest.mark.parametrize(
     'value, expected', (
-                (u'test', True),
-                (u'æíöû', False),
-                (u'ジェーピーニック', False),
+                ('test', True),
+                ('æíöû', False),
+                ('ジェーピーニック', False),
     )
 )
 def test_unicode_is_ascii(value, expected):

@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """Tests for Requests."""
 
 import json
@@ -164,7 +162,7 @@ class TestRequests:
 
     def test_binary_put(self):
         request = requests.Request('PUT', 'http://example.com',
-                                   data=u"ööö".encode("utf-8")).prepare()
+                                   data="ööö".encode("utf-8")).prepare()
         assert isinstance(request.body, bytes)
 
     def test_whitespaces_are_removed_from_url(self):
@@ -754,7 +752,7 @@ class TestRequests:
 
     def test_POSTBIN_SEEKED_OBJECT_WITH_NO_ITER(self, httpbin):
 
-        class TestStream(object):
+        class TestStream:
             def __init__(self, data):
                 self.data = data.encode()
                 self.length = len(self.data)
@@ -873,7 +871,7 @@ class TestRequests:
     def test_unicode_header_name(self, httpbin):
         requests.put(
             httpbin('put'),
-            headers={str('Content-Type'): 'application/octet-stream'},
+            headers={'Content-Type': 'application/octet-stream'},
             data='\xff')  # compat.str is unicode.
 
     def test_pyopenssl_redirect(self, httpbin_secure, httpbin_ca_bundle):
@@ -2496,10 +2494,10 @@ def test_urllib3_pool_connection_closed(httpbin):
     try:
         s.get(httpbin('status/200'))
     except ConnectionError as e:
-        assert u"Pool is closed." in str(e)
+        assert "Pool is closed." in str(e)
 
 
-class TestPreparingURLs(object):
+class TestPreparingURLs:
     @pytest.mark.parametrize(
         'url,expected',
         (
@@ -2558,9 +2556,9 @@ class TestPreparingURLs(object):
         (
             b"http://*.google.com",
             b"http://*",
-            u"http://*.google.com",
-            u"http://*",
-            u"http://☃.net/"
+            "http://*.google.com",
+            "http://*",
+            "http://☃.net/"
         )
     )
     def test_preparing_bad_url(self, url):
@@ -2583,23 +2581,23 @@ class TestPreparingURLs(object):
         (
             (
                 b"http+unix://%2Fvar%2Frun%2Fsocket/path%7E",
-                u"http+unix://%2Fvar%2Frun%2Fsocket/path~",
+                "http+unix://%2Fvar%2Frun%2Fsocket/path~",
             ),
             (
-                u"http+unix://%2Fvar%2Frun%2Fsocket/path%7E",
-                u"http+unix://%2Fvar%2Frun%2Fsocket/path~",
+                "http+unix://%2Fvar%2Frun%2Fsocket/path%7E",
+                "http+unix://%2Fvar%2Frun%2Fsocket/path~",
             ),
             (
                 b"mailto:user@example.org",
-                u"mailto:user@example.org",
+                "mailto:user@example.org",
             ),
             (
-                u"mailto:user@example.org",
-                u"mailto:user@example.org",
+                "mailto:user@example.org",
+                "mailto:user@example.org",
             ),
             (
                 b"data:SSDimaUgUHl0aG9uIQ==",
-                u"data:SSDimaUgUHl0aG9uIQ==",
+                "data:SSDimaUgUHl0aG9uIQ==",
             )
         )
     )
@@ -2620,22 +2618,22 @@ class TestPreparingURLs(object):
             (
                 b"http+unix://%2Fvar%2Frun%2Fsocket/path",
                 {"key": "value"},
-                u"http+unix://%2Fvar%2Frun%2Fsocket/path?key=value",
+                "http+unix://%2Fvar%2Frun%2Fsocket/path?key=value",
             ),
             (
-                u"http+unix://%2Fvar%2Frun%2Fsocket/path",
+                "http+unix://%2Fvar%2Frun%2Fsocket/path",
                 {"key": "value"},
-                u"http+unix://%2Fvar%2Frun%2Fsocket/path?key=value",
+                "http+unix://%2Fvar%2Frun%2Fsocket/path?key=value",
             ),
             (
                 b"mailto:user@example.org",
                 {"key": "value"},
-                u"mailto:user@example.org",
+                "mailto:user@example.org",
             ),
             (
-                u"mailto:user@example.org",
+                "mailto:user@example.org",
                 {"key": "value"},
-                u"mailto:user@example.org",
+                "mailto:user@example.org",
             ),
         )
     )

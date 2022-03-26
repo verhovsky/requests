@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 try:
     from http.server import HTTPServer
     from http.server import SimpleHTTPRequestHandler
@@ -44,7 +42,7 @@ def nosan_server(tmp_path_factory):
     tmpdir = tmp_path_factory.mktemp("certs")
     ca = trustme.CA()
     # only commonName, no subjectAltName
-    server_cert = ca.issue_cert(common_name=u"localhost")
+    server_cert = ca.issue_cert(common_name="localhost")
     ca_bundle = str(tmpdir / "ca.pem")
     ca.cert_pem.write_to_path(ca_bundle)
 

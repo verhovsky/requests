@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 import threading
 import socket
 import select
@@ -28,7 +26,7 @@ class Server(threading.Thread):
     WAIT_EVENT_TIMEOUT = 5
 
     def __init__(self, handler=None, host='localhost', port=0, requests_to_handle=1, wait_to_close_event=None):
-        super(Server, self).__init__()
+        super().__init__()
 
         self.handler = handler or consume_socket_content
         self.handler_results = []
@@ -84,7 +82,7 @@ class Server(threading.Thread):
     def _close_server_sock_ignore_errors(self):
         try:
             self.server_sock.close()
-        except IOError:
+        except OSError:
             pass
 
     def _handle_requests(self):
@@ -105,7 +103,7 @@ class Server(threading.Thread):
                 return None
 
             return self.server_sock.accept()[0]
-        except (select.error, socket.error):
+        except OSError:
             return None
 
     def __enter__(self):

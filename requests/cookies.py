@@ -1,5 +1,3 @@
-# -*- coding: utf-8 -*-
-
 """
 requests.cookies
 ~~~~~~~~~~~~~~~~
@@ -22,7 +20,7 @@ except ImportError:
     import dummy_threading as threading
 
 
-class MockRequest(object):
+class MockRequest:
     """Wraps a `requests.Request` to mimic a `urllib2.Request`.
 
     The code in `cookielib.CookieJar` expects this interface in order to correctly
@@ -94,7 +92,7 @@ class MockRequest(object):
         return self.get_host()
 
 
-class MockResponse(object):
+class MockResponse:
     """Wraps a `httplib.HTTPMessage` to mimic a `urllib.addinfourl`.
 
     ...what? Basically, expose the parsed HTTP headers from the server response
