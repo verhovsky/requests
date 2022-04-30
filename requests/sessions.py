@@ -464,11 +464,11 @@ class Session(SessionRedirectMixin):
             session's settings.
         :rtype: requests.PreparedRequest
         """
-        cookies = request.cookies or {}
+        cookies = request.cookies
 
         # Bootstrap CookieJar.
         if not isinstance(cookies, cookielib.CookieJar):
-            cookies = cookiejar_from_dict(cookies)
+            cookies = cookiejar_from_dict(cookies or {})
 
         # Merge with session cookies
         merged_cookies = merge_cookies(
